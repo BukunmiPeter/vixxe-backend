@@ -1,5 +1,5 @@
 import express from "express";
-// import routes from "../routes";
+import routes from "../routes";
 // import deserializeUser from "../middleware/deserializeUser";
 
 function createServer() {
@@ -9,7 +9,7 @@ function createServer() {
 
   // app.use(deserializeUser);
 
-  // routes(app);
+  routes(app);
 
   return app;
 }
