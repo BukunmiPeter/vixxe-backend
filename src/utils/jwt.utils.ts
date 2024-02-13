@@ -1,21 +1,30 @@
 import jwt from "jsonwebtoken";
 import config from "config";
-
+const secretKey =config.get<string>("secretKey");
 const privateKey = config.get<string>("privateKey");
 const publicKey = config.get<string>("publicKey");
 
 export function signJwt(object: Object, options?: jwt.SignOptions | undefined) {
-
-  console.log(privateKey, publicKey, )
-  return jwt.sign(object, privateKey, {
+  return jwt.sign(object, secretKey, {
     ...(options && options),
-    // algorithm: "RS256",
+    // algorithm: "RS256", 
   });
 }
 
 export function verifyJwt(token: string) {
+  if (!token) {
+    console.error('Token is undefined or null');
+    return {
+      valid: false,
+      expired: false,
+      decoded: null,
+    };
+  }
   try {
-    const decoded = jwt.verify(token, publicKey);
+
+    const decoded = jwt.verify(token, secretKey
+      );
+    
     return {
       valid: true,
       expired: false,

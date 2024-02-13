@@ -1,4 +1,5 @@
-import { object, string, TypeOf } from "zod";
+import { object, string } from "zod";
+import { UserDocument } from "../models/user.models";
 
 export const createUserSchema = object({
   body: object({
@@ -6,10 +7,10 @@ export const createUserSchema = object({
       required_error: "Name is required",
     }),
     password: string({
-      required_error: "Name is required",
+      required_error: "Password is required",
     }).min(6, "Password too short - should be 6 chars minimum"),
     passwordConfirmation: string({
-      required_error: "passwordConfirmation is required",
+      required_error: "Password confirmation is required",
     }),
     email: string({
       required_error: "Email is required",
@@ -20,7 +21,6 @@ export const createUserSchema = object({
   }),
 });
 
-export type CreateUserInput = Omit<
-  TypeOf<typeof createUserSchema>,
-  "body.passwordConfirmation"
->;
+export type CreateUserInput = {
+  body: Omit<UserDocument, "createdAt" | "updatedAt" | "comparePassword">;
+};

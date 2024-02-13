@@ -4,16 +4,18 @@ import UserModel, { UserDocument } from "../models/user.models";
 
 
 export async function createUser(
-  input: Document<
-    Omit<UserDocument, "createdAt" | "updatedAt" | "comparePassword" |any |any>
-  >
+  input: Omit<UserDocument, "createdAt" | "updatedAt" | "comparePassword">
 ) {
   try {
-    const user = await UserModel.create(input);
+    // Check if input is already a model instance
+    const user = input instanceof UserModel ? input : new UserModel(input);
+
+    // Save the user to the database
+    await user.save();
 
     return omit(user.toJSON(), "password");
   } catch (e: any) {
-    throw new Error(e); 
+    throw new Error(e);
   }
 }
 
