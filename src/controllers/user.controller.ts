@@ -10,7 +10,6 @@ export async function createUserHandler(
 ) {
   try {
      const userData: CreateUserInput["body"] = req.body;
-    console.log(req.body)
     const user = await createUser(userData);
     return res.send(user);
   } catch (e: any) {
